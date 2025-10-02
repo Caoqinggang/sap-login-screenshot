@@ -22,7 +22,8 @@ async function sendToTelegram(filePath, caption) {
     emailSubmit: 'button[type="submit"], button[id="continue"], #logOnFormSubmit',
     passwordInput: 'input[type="password"], input[id="j_password"]',
     passwordSubmit: 'button[type="submit"], #logOnFormSubmit',
-    goToTrial: 'a:has-text("转到您的试用账户|Go To Your Trial Account"), button:has-text("转到您的试用账户|Go To Your Trial Account")'
+    goToTrial: 'a:has-text(/转到您的试用账户|Go to your trial account/i), button:has-text(/转到您的试用账户|Go to your trial account/i)'
+    // goToTrial: 'a:has-text("转到您的试用账户"), button:has-text("转到您的试用账户")'
   };
 
   let browser;
