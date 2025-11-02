@@ -39,17 +39,20 @@ async function sendToTelegram(filePath, caption) {
 
     const page = await browser.newPage();
 
-    console.log("🌐 打开 N8N 登录页面...");
-    await page.goto("https://lycc17-n8n-free.hf.space/");
-    await page.waitForTimeout(10000);
+    console.log("🌐 打开 SAP BTP 登录页面...");
+    await page.goto("https://account.hanatrial.ondemand.com/");
 
     // Step 1: 输入邮箱
     console.log("✉️ 输入邮箱...");
-    await page.fill(SELECTORS.emailInput, process.env.EMAIL);
+    await page.fill(SELECTORS.emailInput, process.env.SAP_EMAIL);
+    console.log("➡️ 点击继续...");
+    await page.click(SELECTORS.emailSubmit);
+
     // Step 2: 输入密码
     await page.waitForSelector(SELECTORS.passwordInput, { timeout: 15000 });
     console.log("🔑 输入密码...");
-    await page.fill(SELECTORS.passwordInput, process.PASSWORD);
+    await page.fill(SELECTORS.passwordInput, process.env.SAP_PASSWORD);
+    console.log("➡️ 点击登录...");
     await page.click(SELECTORS.passwordSubmit);
 
     // 等待登录完成
@@ -58,15 +61,31 @@ async function sendToTelegram(filePath, caption) {
     // Step 3: 截图登录后的页面
     const loginScreenshot = "login-success.png";
     await page.screenshot({ path: loginScreenshot, fullPage: true });
-    await sendToTelegram(loginScreenshot, "✅ N8N 登录成功页面");
+    await sendToTelegram(loginScreenshot, "✅ SAP BTP 登录成功页面");
+
+    // Step 4: 点击 “转到您的试用账户”
+    console.log("👉 检测并关闭 Consent Banner...");
+    const consentButton = await page.$('#truste-consent-button');
+    if (consentButton) {
+    await consentButton.click();
+    await page.waitForTimeout(1000);
+    }
+
+    console.log("👉 点击 '转到您的试用账户'...");
+    await page.waitForSelector(SELECTORS.goToTrial, { timeout: 20000 });
+    await page.click(SELECTORS.goToTrial, { force: true });
+
+    // 等待试用账户页面加载
+    await page.waitForTimeout(8000);
 
 
+    // 等待试用账户页面加载
     await page.waitForTimeout(8000);
 
     // Step 5: 截图试用账户页面
     const trialScreenshot = "trial-account.png";
     await page.screenshot({ path: trialScreenshot, fullPage: true });
-    await sendToTelegram(trialScreenshot, "✅ 已进入 N8n workflows面");
+    await sendToTelegram(trialScreenshot, "✅ 已进入 SAP BTP 试用账户页面");
 
     console.log("🎉 两张截图已发送到 Telegram");
 
