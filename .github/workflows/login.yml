@@ -29,11 +29,11 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
-      - name: Upload screenshots as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: sap-btp-screenshots
-          path: |
-            login-success.png
-            trial-account.png
-            error.png
+     # - name: Upload screenshots as artifact
+     #   uses: actions/upload-artifact@v4
+     #   with:
+     #   name: sap-btp-screenshots
+     #    path: |
+     #      login-success.png
+     #      trial-account.png
+     #      error.png
