@@ -2,7 +2,7 @@ name: SAP BTP Auto Login
 
 on:
   schedule:
-    - cron: "0 0 */10 * *"   # 每10天运行一次（UTC 0点）
+    - cron: "0 02 */10 * *"   # 每10天运行一次（UTC 02点）
   workflow_dispatch:
 
 jobs:
